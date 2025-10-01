@@ -1,0 +1,14 @@
+C:\Users\student\source\repos\AEgorov_lab1\AEgorov_lab1\obj\Debug\AEgorov_lab1.csprojAssemblyReference.cache
+C:\Users\student\source\repos\AEgorov_lab1\AEgorov_lab1\obj\Debug\AEgorov_lab1.csproj.CoreCompileInputs.cache
+C:\Users\student\source\repos\AEgorov_lab1\AEgorov_lab1\bin\Debug\AEgorov_lab1.exe.config
+C:\Users\student\source\repos\AEgorov_lab1\AEgorov_lab1\bin\Debug\AEgorov_lab1.exe
+C:\Users\student\source\repos\AEgorov_lab1\AEgorov_lab1\bin\Debug\AEgorov_lab1.pdb
+C:\Users\student\source\repos\AEgorov_lab1\AEgorov_lab1\obj\Debug\AEgorov_lab1.exe
+C:\Users\student\source\repos\AEgorov_lab1\AEgorov_lab1\obj\Debug\AEgorov_lab1.pdb
+C:\Users\1\Desktop\ЕгоровАР_12\AEgorov_lab1\bin\Debug\AEgorov_lab1.exe.config
+C:\Users\1\Desktop\ЕгоровАР_12\AEgorov_lab1\bin\Debug\AEgorov_lab1.exe
+C:\Users\1\Desktop\ЕгоровАР_12\AEgorov_lab1\bin\Debug\AEgorov_lab1.pdb
+C:\Users\1\Desktop\ЕгоровАР_12\AEgorov_lab1\obj\Debug\AEgorov_lab1.csprojAssemblyReference.cache
+C:\Users\1\Desktop\ЕгоровАР_12\AEgorov_lab1\obj\Debug\AEgorov_lab1.csproj.CoreCompileInputs.cache
+C:\Users\1\Desktop\ЕгоровАР_12\AEgorov_lab1\obj\Debug\AEgorov_lab1.exe
+C:\Users\1\Desktop\ЕгоровАР_12\AEgorov_lab1\obj\Debug\AEgorov_lab1.pdb
