@@ -1,117 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AEgorov_lab1
 {
-    class Company
-    {
-        public string CompanyName { get; set; }
-        public int ApproxIncome { get; set; }
-    }
     class RealEstate
     {
         public string Owner { get; set; }
         public DateTime RegistrationDate { get; set; }
         public int ApproxCost { get; set; }
     }
-    class TaxInfo
+    class RuralRealEstate : RealEstate
     {
-        public bool PaysTaxes { get; set; }
-        public Currency AcceptedCurrency { get; set; }
+        public string Street { get; set; }
+        public int HouseNumber { get; set; }
     }
-    enum Currency
+    class UrbanRealEstate : RuralRealEstate
     {
-        RUB,
-        USD,
-        EUR
+        public string District { get; set; }
+        public string Shore { get; set; }
     }
 
 
 
     class Program
     {
-        public static Company CIInfoConverter(string CI)
+        public static List<string> StrConverter(string data)
         {
             int i = 0;
             int count = 0;
-            string res_CI = CI.TrimStart().TrimEnd();
-            string companyName = "";
-            string x = "";
-            if (res_CI.StartsWith("\""))
-            {
-                for (i = 1; i < res_CI.Length; i++)
-                {
-                    x += res_CI[i];
-                    if (x.EndsWith("\""))
-                    {
-                        break;
-                    }
-                    companyName += res_CI[i];
-                    count += 1;
-                }
-            }
-            res_CI = res_CI.Remove(0, count + 2);
-            count = 0;
-            i = 0;
-
-            res_CI = res_CI.TrimStart();
-
-            int approxIncome = int.Parse(res_CI);
-
-            Company company = new Company
-            {
-                CompanyName = companyName,
-                ApproxIncome = approxIncome
-            };
-            return company;
-        }
-
-        public static RealEstate REIInfoConverter(string REI)
-        {
-            int i = 0;
-
-            string res_REI = REI.TrimStart().TrimEnd();
+            string res_data = data.TrimStart().TrimEnd();
             string owner = "";
             string x = "";
-            int count = 0;
-            if (res_REI.StartsWith("\""))
+            if (res_data.StartsWith("\""))
             {
-                for (i = 1; i < res_REI.Length; i++)
+                for (i = 1; i < res_data.Length; i++)
                 {
-                    x += res_REI[i];
+                    x += res_data[i];
                     if (x.EndsWith("\""))
                     {
                         break;
                     }
-                    owner += res_REI[i];
+                    owner += res_data[i];
                     count += 1;
                 }
             }
-            res_REI = res_REI.Remove(0, count + 2);
-            count = 0;
-            i = 0;
+            res_data = res_data.Remove(0, count + 2);
+            res_data = res_data.TrimStart();
 
-            res_REI = res_REI.TrimStart();
-
-            List<string> rei_all_lst = new List<string>(res_REI.Split(' '));
-            List<string> rei_res_lst = new List<string>();
+            List<string> ConvertedData = new List<string>(res_data.Split(' '));
+            ConvertedData.Insert(0, owner);
+            List<string> result = new List<string>();
 
             i = 0;
-            while (i < rei_all_lst.Count)
+            while (i < ConvertedData.Count)
             {
-                if (rei_all_lst[i] != "")
+                if (ConvertedData[i] != "")
                 {
-                    rei_res_lst.Add(rei_all_lst[i]);
+                    result.Add(ConvertedData[i]);
                 }
                 i++;
             }
-            i = 0;
 
-            DateTime registrationDate = DateTime.Parse(rei_res_lst[0]);
-            int approxCost = int.Parse(rei_res_lst[1]);
+            return result;
+        }
+
+        public static RealEstate REInfoConverter(List<string> data)
+        {
+            string owner = data[0];
+            DateTime registrationDate = DateTime.Parse(data[1]);
+            int approxCost = int.Parse(data[2]);
 
             RealEstate realEstate = new RealEstate
             {
@@ -123,36 +84,99 @@ namespace AEgorov_lab1
             return realEstate;
         }
 
+        public static RuralRealEstate RuralREInfoConverter(List<string> data)
+        {
+            RealEstate Source = REInfoConverter(data);
+
+            string street = data[3];
+            int houseNumber = int.Parse(data[4]);
+
+            RuralRealEstate ruralRealEstate = new RuralRealEstate
+            {
+                Owner = Source.Owner,
+                RegistrationDate = Source.RegistrationDate,
+                ApproxCost = Source.ApproxCost,
+                Street = street,
+                HouseNumber = houseNumber
+            };
+
+            return ruralRealEstate;
+        }
+
+        public static UrbanRealEstate UrbanREInfoConverter(List<string> data)
+        {
+            RuralRealEstate Source = RuralREInfoConverter(data);
+
+            string district = data[5];
+            string shore = data[6];
+
+            UrbanRealEstate urbanRealEstate = new UrbanRealEstate
+            {
+                Owner = Source.Owner,
+                RegistrationDate = Source.RegistrationDate,
+                ApproxCost = Source.ApproxCost,
+                Street = Source.Street,
+                HouseNumber = Source.HouseNumber,
+                District = district,
+                Shore = shore
+            };
+
+            return urbanRealEstate;
+        }
+
         static void Main(string[] args)
         {
-            List<string> lst_rei_all_global = new List<string>() { "\"Егоров А.Р.\"     2025.09.05 45000000", "\"Емельянов В. И.\"     2025.12.17             45000000" };
-            List<string> lst_сi_all_global = new List<string>() { "\"Аренда недвижимости\"                  1000000000" };
+            //List<string> AllInfo = new List<string>() { "\"Егоров А.Р.\"     2025.09.05 15000000", "\"Емельянов В. И.\"     2025.12.17             4700000  Добрая    18",
+            //    "\"Трусов Н. А.\"     2010.05.01     7000000  Ленина   9  Октябрьский        Левый" };
+            List<string> AllInfo = new List<string>();
 
-            List<RealEstate> ListRealEstate = new List<RealEstate>();
-            List<Company> ListCompany = new List<Company>();
+            List<RealEstate> REI_lst = new List<RealEstate>();
+            List<RealEstate> RuralREI_lst = new List<RealEstate>();
+            List<RealEstate> UrbanREI_lst = new List<RealEstate>();
 
-            for (int i = 0; i < lst_rei_all_global.Count; i++)
+            if (AllInfo.Count == 0)
             {
-                ListRealEstate.Add(REIInfoConverter(lst_rei_all_global[i]));
-            }
-
-            for (int i = 0; i < lst_сi_all_global.Count; i++)
-            {
-                ListCompany.Add(CIInfoConverter(lst_сi_all_global[i]));
-            }
-
-            int minnum = ListRealEstate[0].ApproxCost;
-            int count = 0;
-            for (int i = 0; i < ListRealEstate.Count; i++)
-            {
-                if (minnum > ListRealEstate[i].ApproxCost)
+                string CurrentDirectory = Directory.GetCurrentDirectory();
+                string filePath = Path.Combine(CurrentDirectory, "files.txt");
+                List<string> lines = File.Exists(filePath) ? File.ReadAllLines(filePath).ToList() : new List<string>();
+                for (int i = 0; i < lines.Count; i++)
                 {
-                    minnum = ListRealEstate[i].ApproxCost;
-                    count = i;
+                    List<string> result = StrConverter(lines[i]);
+                    if (result.Count == 3)
+                    {
+                        REI_lst.Add(REInfoConverter(result));
+                    }
+                    else if (result.Count == 5)
+                    {
+                        RuralREI_lst.Add(RuralREInfoConverter(result));
+                    }
+                    else if (result.Count == 7)
+                    {
+                        UrbanREI_lst.Add(UrbanREInfoConverter(result));
+                    }
                 }
             }
-            Console.WriteLine(ListRealEstate[count].Owner);
-            Console.WriteLine(ListRealEstate[count].ApproxCost);
+            else
+            {
+                for (int i = 0; i < AllInfo.Count; i++)
+                {
+                    List<string> result = StrConverter(AllInfo[i]);
+                    if (result.Count == 3)
+                    {
+                        REI_lst.Add(REInfoConverter(result));
+                    }
+                    else if (result.Count == 5)
+                    {
+                        RuralREI_lst.Add(RuralREInfoConverter(result));
+                    }
+                    else if (result.Count == 7)
+                    {
+                        UrbanREI_lst.Add(UrbanREInfoConverter(result));
+                    }
+                }
+            }
+
+            Console.WriteLine(REI_lst[0].Owner);
 
             Console.ReadKey();
         }
