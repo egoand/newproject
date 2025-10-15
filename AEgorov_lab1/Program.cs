@@ -14,7 +14,7 @@ namespace AEgorov_lab1
     class RealEstate
     {
         public string Owner { get; set; }
-        public DateTime RegistrationDate { get; }
+        public DateTime RegistrationDate { get; set; }
         public int ApproxCost { get; set; }
     }
     class TaxInfo
