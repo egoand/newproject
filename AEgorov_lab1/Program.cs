@@ -26,44 +26,58 @@ namespace AEgorov_lab1
 
     class Program
     {
-        public static List<string> StrConverter(string data)
+        public static string ExtractOwnerName(string data)
         {
-            int i = 0;
-            int count = 0;
-            string res_data = data.TrimStart().TrimEnd();
+            string trimmedData = data.TrimStart().TrimEnd();
             string owner = "";
-            string x = "";
-            if (res_data.StartsWith("\""))
+            string buffer = "";
+
+            if (trimmedData.StartsWith("\""))
             {
-                for (i = 1; i < res_data.Length; i++)
+                for (int i = 1; i < trimmedData.Length; i++)
                 {
-                    x += res_data[i];
-                    if (x.EndsWith("\""))
+                    buffer += trimmedData[i];
+                    if (buffer.EndsWith("\""))
                     {
                         break;
                     }
-                    owner += res_data[i];
-                    count += 1;
+                    owner += trimmedData[i];
                 }
             }
-            res_data = res_data.Remove(0, count + 2);
-            res_data = res_data.TrimStart();
+            return owner;
+        }
 
-            List<string> ConvertedData = new List<string>(res_data.Split(' '));
-            ConvertedData.Insert(0, owner);
-            List<string> result = new List<string>();
+        public static string RemoveOwnerFromString(string data, string owner)
+        {
+            int ownerLength = owner.Length;
+            string result = data.Remove(0, ownerLength + 2); // +2 для кавычек
+            return result.TrimStart();
+        }
 
-            i = 0;
-            while (i < ConvertedData.Count)
+        public static List<string> SplitAndCleanData(string data)
+        {
+            List<string> rawData = new List<string>(data.Split(' '));
+            List<string> cleanedData = new List<string>();
+
+            for (int i = 0; i < rawData.Count; i++)
             {
-                if (ConvertedData[i] != "")
+                if (!string.IsNullOrEmpty(rawData[i]))
                 {
-                    result.Add(ConvertedData[i]);
+                    cleanedData.Add(rawData[i]);
                 }
-                i++;
             }
 
-            return result;
+            return cleanedData;
+        }
+
+        public static List<string> StrConverter(string data)
+        {
+            string owner = ExtractOwnerName(data);
+            string dataWithoutOwner = RemoveOwnerFromString(data, owner);
+            List<string> cleanedData = SplitAndCleanData(dataWithoutOwner);
+            cleanedData.Insert(0, owner);
+
+            return cleanedData;
         }
 
         public static RealEstate REInfoConverter(List<string> data)
