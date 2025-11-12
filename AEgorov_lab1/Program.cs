@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace AEgorov_lab1
 {
@@ -26,58 +27,24 @@ namespace AEgorov_lab1
 
     class Program
     {
-        public static string ExtractOwnerName(string data)
+        public static List<string> CleaningString(string data)
         {
-            string trimmedData = data.TrimStart().TrimEnd();
-            string owner = "";
-            string buffer = "";
+            List<string> result = new List<string>();
+            string pattern = @"""[^""]*""|\S+";
 
-            if (trimmedData.StartsWith("\""))
+            MatchCollection matches = Regex.Matches(data, pattern);
+
+            foreach (Match match in matches)
             {
-                for (int i = 1; i < trimmedData.Length; i++)
+                string value = match.Value;
+                if (value.StartsWith("\"") && value.EndsWith("\""))
                 {
-                    buffer += trimmedData[i];
-                    if (buffer.EndsWith("\""))
-                    {
-                        break;
-                    }
-                    owner += trimmedData[i];
+                    value = value.Substring(1, value.Length - 2);
                 }
-            }
-            return owner;
-        }
-
-        public static string RemoveOwnerFromString(string data, string owner)
-        {
-            int ownerLength = owner.Length;
-            string result = data.Remove(0, ownerLength + 2); // +2 для кавычек
-            return result.TrimStart();
-        }
-
-        public static List<string> SplitAndCleanData(string data)
-        {
-            List<string> rawData = new List<string>(data.Split(' '));
-            List<string> cleanedData = new List<string>();
-
-            for (int i = 0; i < rawData.Count; i++)
-            {
-                if (!string.IsNullOrEmpty(rawData[i]))
-                {
-                    cleanedData.Add(rawData[i]);
-                }
+                result.Add(value);
             }
 
-            return cleanedData;
-        }
-
-        public static List<string> StrConverter(string data)
-        {
-            string owner = ExtractOwnerName(data);
-            string dataWithoutOwner = RemoveOwnerFromString(data, owner);
-            List<string> cleanedData = SplitAndCleanData(dataWithoutOwner);
-            cleanedData.Insert(0, owner);
-
-            return cleanedData;
+            return result;
         }
 
         public static RealEstate REInfoConverter(List<string> data)
@@ -136,38 +103,6 @@ namespace AEgorov_lab1
             return urbanRealEstate;
         }
 
-        public static List<string> SplitStringIntoObjects(string inputLine)
-        {
-            List<string> objects = new List<string>();
-            StringBuilder currentObject = new StringBuilder();
-            int partCount = 0;
-
-            string[] parts = inputLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (string part in parts)
-            {
-                currentObject.Append(part).Append(" ");
-
-                if (part.EndsWith("\""))
-                    partCount = 1;
-                else if (!part.StartsWith("\""))
-                    partCount++;
-
-                if (partCount == 3 || partCount == 5 || partCount == 7)
-                {
-                    objects.Add(currentObject.ToString().Trim());
-                    currentObject.Clear();
-                    partCount = 0;
-                }
-            }
-
-            string lastObject = currentObject.ToString().Trim();
-            if (!string.IsNullOrEmpty(lastObject))
-                objects.Add(lastObject);
-
-            return objects;
-        }
-
         public static List<string> ReadDataFromFile(string filePath)
         {
             List<string> allInfo = new List<string>();
@@ -179,7 +114,7 @@ namespace AEgorov_lab1
                 {
                     if (!string.IsNullOrWhiteSpace(line))
                     {
-                        List<string> objectsInLine = SplitStringIntoObjects(line.Trim());
+                        List<string> objectsInLine = CleaningString(line.Trim());
                         allInfo.AddRange(objectsInLine);
                     }
                 }
@@ -195,32 +130,22 @@ namespace AEgorov_lab1
             List<RealEstate> RuralREI_lst = new List<RealEstate>();
             List<RealEstate> UrbanREI_lst = new List<RealEstate>();
 
-            Console.WriteLine("Введите данные (пустая строка - переход к файлу):");
-            string consoleInput = Console.ReadLine();
+            string projectDirectory = Directory.GetCurrentDirectory();
+            string filePath = Path.Combine(projectDirectory, "file.txt");
+            AllInfo = ReadDataFromFile(filePath);
 
-            if (!string.IsNullOrWhiteSpace(consoleInput))
+            if (AllInfo.Count == 0)
             {
-                AllInfo = SplitStringIntoObjects(consoleInput.Trim());
-            }
-            else
-            {
-                string projectDirectory = Directory.GetCurrentDirectory();
-                string filePath = Path.Combine(projectDirectory, "file.txt");
-                AllInfo = ReadDataFromFile(filePath);
-
-                if (AllInfo.Count == 0)
-                {
-                    AllInfo = new List<string>() {
-                        "\"Егоров А.Р.\"     2025.09.05 15000000",
-                        "\"Емельянов В. И.\"     2025.12.17             4700000  Добрая    18",
-                        "\"Трусов Н. А.\"     2010.05.01     7000000  Ленина   9  Октябрьский        Левый"
-                    };
-                }
+                AllInfo = new List<string>() {
+                    "\"Егоров А.Р.\"     2025.09.05 15000000",
+                    "\"Емельянов В. И.\"     2025.12.17             4700000  \"Добрая\"    18",
+                    "\"Трусов Н. А.\"     2010.05.01     7000000  \"Ленина\"   9  \"Октябрьский\"        \"Левый\""
+                };
             }
 
             for (int i = 0; i < AllInfo.Count; i++)
             {
-                List<string> result = StrConverter(AllInfo[i]);
+                List<string> result = CleaningString(AllInfo[i]);
                 if (result.Count == 3)
                 {
                     REI_lst.Add(REInfoConverter(result));
