@@ -1,0 +1,98 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Андрей\\source\\repos\\newproject\\AEgorov_lab1.Tests\\AEgorov_lab1.Tests.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Андрей\\source\\repos\\newproject\\AEgorov_lab1.Tests\\AEgorov_lab1.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Андрей\\source\\repos\\newproject\\AEgorov_lab1.Tests\\AEgorov_lab1.Tests.csproj",
+        "projectName": "AEgorov_lab1.Tests",
+        "projectPath": "C:\\Users\\Андрей\\source\\repos\\newproject\\AEgorov_lab1.Tests\\AEgorov_lab1.Tests.csproj",
+        "packagesPath": "C:\\Users\\Андрей\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Андрей\\source\\repos\\newproject\\AEgorov_lab1.Tests\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Андрей\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "targetAlias": "net48",
+            "projectReferences": {
+              "C:\\Users\\Андрей\\source\\repos\\newproject\\AEgorov_lab1\\AEgorov_lab1.csproj": {
+                "projectPath": "C:\\Users\\Андрей\\source\\repos\\newproject\\AEgorov_lab1\\AEgorov_lab1.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net48": {
+          "targetAlias": "net48",
+          "dependencies": {
+            "MSTest": {
+              "target": "Package",
+              "version": "[4.0.1, )"
+            },
+            "MSTest.TestAdapter": {
+              "target": "Package",
+              "version": "[4.0.1, )",
+              "versionOverride": "[4.0.1, )"
+            },
+            "MSTest.TestFramework": {
+              "target": "Package",
+              "version": "[4.0.1, )",
+              "versionOverride": "[4.0.1, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[18.0.0, )",
+              "versionOverride": "[18.0.0, )"
+            },
+            "Microsoft.Testing.Extensions.CodeCoverage": {
+              "target": "Package",
+              "version": "[18.1.0, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Андрей\\source\\repos\\newproject\\AEgorov_lab1\\AEgorov_lab1.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Андрей\\source\\repos\\newproject\\AEgorov_lab1\\AEgorov_lab1.csproj",
+        "projectName": "AEgorov_lab1",
+        "projectPath": "C:\\Users\\Андрей\\source\\repos\\newproject\\AEgorov_lab1\\AEgorov_lab1.csproj",
+        "UsingMicrosoftNETSdk": false,
+        "frameworks": {
+          "net48": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net48": {}
+      }
+    }
+  }
+}

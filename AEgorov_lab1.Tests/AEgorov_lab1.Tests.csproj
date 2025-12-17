@@ -1,0 +1,17 @@
+﻿<Project Sdk="MSTest.Sdk/4.0.1">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseVSTest>true</UseVSTest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AEgorov_lab1\AEgorov_lab1.csproj" />
+	<PackageReference Include="MSTest" Version="4.0.1" />
+	<PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.1.0" />
+  </ItemGroup>
+
+</Project>
