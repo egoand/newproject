@@ -87,7 +87,7 @@ namespace AEgorov_lab1.Tests
         public void TestREInfoConverter_FutureDate()
         {
             // Arrange
-            List<string> data = new List<string> { "Егоров А.Р.", "2030.09.05", "15000000" };
+            List<string> data = new List<string> { "Егоров А.Р.", "2030.09.05", "16000000" };
 
             // Act
             Program.REInfoConverter(data);
